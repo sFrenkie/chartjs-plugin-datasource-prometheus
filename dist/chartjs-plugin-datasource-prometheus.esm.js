@@ -10,9 +10,9 @@ var datasource = {
      * Compute a step for range_query (interval between 2 points in second)
      * Min step: 1s
      * Default: 1 step every 25px
-     * @param {Date} start 
+     * @param {Date} start
      * @param {Date} end
-     * @param {number} chartWidth: width in pixel 
+     * @param {number} chartWidth: width in pixel
      */
     getPrometheusStepAuto: (start, end, chartWidth) => {
         const secondDuration = (end.getTime() - start.getTime()) / 1000;
@@ -23,7 +23,7 @@ var datasource = {
     /**
      * Return Date objects containing the start and end date of interval.
      * Relative dates are computed to absolute
-     * @param {object} timeRange 
+     * @param {object} timeRange
      */
     getStartAndEndDates(timeRange) {
         // default to "absolute"
@@ -154,14 +154,14 @@ const setTimeAxesOptions = (chart, start, end) => {
 
 const fillGaps = (chart, start, end, step, options = {}) => {
     var minStep = (options.minStep || step);
-    minStep = minStep >= step ? minStep : step; 
+    minStep = minStep >= step ? minStep : step;
     chart.data.datasets.forEach((dataSet, index) => {
         // detect missing data in response
         for (var i = dataSet.data.length - 2; i > 0 ; i--) {
             if ((dataSet.data[i + 1].t - dataSet.data[i].t) > (1100 * minStep)) {
                 for (var steps = (dataSet.data[i + 1].t - dataSet.data[i].t) / (minStep * 1000); steps > 1; steps--) {
                     dataSet.data.splice(i + 1, 0,
-                        { t: new Date(dataSet.data[i + 1].t.getTime() - minStep * 1000), v: Number.NaN });	
+                        { t: new Date(dataSet.data[i + 1].t.getTime() - minStep * 1000), v: Number.NaN });
                 }
             }
         }
@@ -190,7 +190,7 @@ const selectLabel = (_options, serie, i) => {
     return serie.metric.toString();
 }
 
-const selectBackGroundColor = (_options, serie, i) => {  
+const selectBackGroundColor = (_options, serie, i) => {
   if (_options.findInBackgroundColorMap) {
       return _options.findInBackgroundColorMap(serie.metric) || _options.backgroundColor[i % _options.backgroundColor.length];
   }
@@ -238,7 +238,7 @@ var ChartDatasourcePrometheusPlugin = {
         const expectedStep = _options['timeRange']['step'] || datasource.getPrometheusStepAuto(start, end, chart.width);
         const minStep = (_options.minStep || expectedStep);
         const step = minStep >= expectedStep ? minStep : expectedStep;
-        if (!!chart['datasource-prometheus'] && 
+        if (!!chart['datasource-prometheus'] &&
               chart['datasource-prometheus']['step'] == step &&
               chart['datasource-prometheus']['start'] == start &&
               chart['datasource-prometheus']['end'] == end)
@@ -264,7 +264,7 @@ var ChartDatasourcePrometheusPlugin = {
 
                     chart.data.datasets = res.result.map((serie, i) => {
                         return {
-                            tension: _options.tension || 0.4,
+                            lineTension: _options.lineTension || 0.4,
                             stepped: _options.stepped || false,
                             cubicInterpolationMode: _options.cubicInterpolationMode || 'default',
                             fill: _options.fill || false,
@@ -309,7 +309,7 @@ var ChartDatasourcePrometheusPlugin = {
             var width = chart.chart.width;
             var height = chart.chart.height;
             chart.clear();
-    
+
             ctx.save();
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';

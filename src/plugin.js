@@ -39,7 +39,7 @@ export default {
         const expectedStep = _options['timeRange']['step'] || datasource.getPrometheusStepAuto(start, end, chart.width);
         const minStep = (_options.minStep || expectedStep);
         const step = minStep >= expectedStep ? minStep : expectedStep;
-        if (!!chart['datasource-prometheus'] && 
+        if (!!chart['datasource-prometheus'] &&
         chart['datasource-prometheus']['step'] == step &&
         chart['datasource-prometheus']['start'] == start &&
         chart['datasource-prometheus']['end'] == end)
@@ -66,7 +66,7 @@ export default {
 
                     chart.data.datasets = res.result.map((serie, i) => {
                         return {
-                            tension: _options.tension || 0.4,
+                            lineTension: _options.lineTension || 0.4,
                             stepped: _options.stepped || false,
                             cubicInterpolationMode: _options.cubicInterpolationMode || 'default',
                             fill: _options.fill || false,
@@ -112,7 +112,7 @@ export default {
             var width = chart.chart.width;
             var height = chart.chart.height;
             chart.clear();
-    
+
             ctx.save();
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
